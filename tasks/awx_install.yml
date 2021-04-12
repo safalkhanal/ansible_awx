@@ -1,0 +1,45 @@
+---
+- name: Check if playbook has been run before.
+  stat:
+    path: /etc/awx_playbook_complete
+  register: awx_playbook_already_run
+
+- name: Ensure PostgreSQL Data is Persisted
+  ini_file:
+    path: '{{ awx_repo_dir }}/installer/inventory'
+    section: all:vars
+    option: postgres_data_dir
+    value: '{{ postgres_data_dir }}'
+
+- name: Create PostgreSQL Data Path
+  file:
+    path: '{{ postgres_data_dir }}'
+    state: directory
+
+- name: upgrade pip and install docker-compose
+  command: "{{ item }}"
+  loop: ['pip3 install --upgrade pip', 'pip install --upgrade pip','pip3 install docker-compose','pip3 install docker','pip install docker-compose']
+
+- name: Run the AWX installation playbook.
+  command: "ansible-playbook -i {{ awx_repo_dir }}/installer/inventory {{ awx_repo_dir }}/installer/install.yml -e postgres_data_dir={{ postgres_data_dir }}"
+  args:
+    chdir: "{{ awx_repo_dir }}/installer"
+    creates: /etc/awx_playbook_complete
+
+- name: Create a file to mark whether this playbook has completed.
+  file:
+    path: /etc/awx_playbook_complete
+    state: touch
+  changed_when: false
+
+# The following tasks are required due to race condition on first install
+- name: Pause for 30 seconds to permit awx_task to start
+  pause:
+    seconds: 30
+  when: not awx_playbook_already_run.stat.exists
+
+- name: Restart container service
+  service:
+    name: docker
+    state: restarted
+  when: not awx_playbook_already_run.stat.exists
