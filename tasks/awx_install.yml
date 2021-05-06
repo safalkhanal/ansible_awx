@@ -11,6 +11,22 @@
     option: postgres_data_dir
     value: '{{ postgres_data_dir }}'
 
+- name: Ensure PostgreSQL Data is Persisted admin_password
+  ini_file:
+    path: '{{ awx_repo_dir }}/installer/inventory'
+    section: all:vars
+    option: admin_password
+    value: 'password'
+    no_extra_spaces: yes
+
+- name: Ensure PostgreSQL Data is Persisted admin_user
+  ini_file:
+    path: '{{ awx_repo_dir }}/installer/inventory'
+    section: all:vars
+    option: admin_user
+    value: 'admin'
+    no_extra_spaces: yes
+
 - name: Create PostgreSQL Data Path
   file:
     path: '{{ postgres_data_dir }}'

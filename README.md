@@ -14,6 +14,7 @@ Role Variables
 postgres_data_dir : location of where postgres data will be kept.
 
 awx_version : The version of AWX to be installed.
+
 awx_repo_dir : Directory path to install AWX.
 
 Dependencies
