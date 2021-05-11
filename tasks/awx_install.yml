@@ -41,6 +41,15 @@
   args:
     chdir: "{{ awx_repo_dir }}/installer"
     creates: /etc/awx_playbook_complete
+  ignore_errors: yes
+  register: command_result
+
+- name: Run the AWX installation playbook again if error is found in previous task
+  command: "ansible-playbook -i {{ awx_repo_dir }}/installer/inventory {{ awx_repo_dir }}/installer/install.yml -e postgres_data_dir={{ postgres_data_dir }}"
+  args:
+    chdir: "{{ awx_repo_dir }}/installer"
+    creates: /etc/awx_playbook_complete
+  when: command_result.stdout.find('failed') != -1
 
 - name: Create a file to mark whether this playbook has completed.
   file:

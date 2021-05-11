@@ -2,7 +2,7 @@ deploy_awx
 =========
 
 This role installs Ansible AWX.
-Note: This role can only be used to install Ansible AWX version 17.1.0 or less.
+Note: This role installs Ansible AWX version 17.1.0 or less.
 
 Requirements
 ------------
