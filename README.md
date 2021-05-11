@@ -1,4 +1,4 @@
-deploy_awx
+ansible_role_awx
 =========
 
 This role installs Ansible AWX.
@@ -8,7 +8,7 @@ Requirements
 ------------
 Before using this role, docker must be installed. Following role can be used to install docker before installing AWX.
 
-respiro.install_docker
+respiro.ansible_role_docker
 
 Role Variables
 --------------
@@ -30,8 +30,8 @@ Example Playbook
     - hosts: servers
       become: yes
       roles:
-         - respiro.install_docker
-         - respiro.deploy_awx 
+         - respiro.ansible_role_docker
+         - respiro.ansible_role_awx
 
 License
 -------
