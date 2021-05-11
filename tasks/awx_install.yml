@@ -34,7 +34,7 @@
 
 - name: upgrade pip and install docker-compose
   command: "{{ item }}"
-  loop: ['pip3 install --upgrade pip', 'pip install --upgrade pip','pip3 install docker-compose','pip3 install docker','pip install docker-compose']
+  loop: ['pip3 install --upgrade pip', 'pip install --upgrade pip', 'pip3 install docker-compose', 'pip3 install docker', 'pip install docker-compose']
 
 - name: Run the AWX installation playbook.
   command: "ansible-playbook -i {{ awx_repo_dir }}/installer/inventory {{ awx_repo_dir }}/installer/install.yml -e postgres_data_dir={{ postgres_data_dir }}"
