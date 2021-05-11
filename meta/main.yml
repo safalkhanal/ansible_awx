@@ -1,7 +1,8 @@
 galaxy_info:
   author: Safal Khanal
-  description: Developer
   company: Respiro Pvt Ltd
+  description: Ansible role to install Ansible AWX
+
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
